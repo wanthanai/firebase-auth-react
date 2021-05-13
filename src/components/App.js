@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 // styled components
 import styled from 'styled-components'
 import '../styles/global.css'
+// Auth Context
+import AuthProvider from '../contexts/AuthContext'
 
 
 const Container = styled.div`
@@ -23,9 +25,11 @@ function App() {
         <Container>
             <div className="container">
                 <Router>
+                    <AuthProvider>
                         <Switch>
                             <Route path='/signup' component={Signup} />
                         </Switch>
+                    </AuthProvider>
                 </Router>
             </div>
         </Container>
