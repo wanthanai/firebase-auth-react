@@ -24,6 +24,9 @@ function AuthProvider({ children }) {
     const updateEmail = (email) => {
         return currentUser.updateEmail(email);
     }
+    const updatePassword = (password) => {
+        return currentUser.updatePassword(password);
+    }
 
     useEffect(() => {
         const unsubscriber = auth.onAuthStateChanged(user => {
@@ -40,7 +43,8 @@ function AuthProvider({ children }) {
         signup,
         login,
         logout, 
-        updateEmail
+        updateEmail,
+        updatePassword
     }
 
     return (
