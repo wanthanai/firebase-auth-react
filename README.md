@@ -1,4 +1,5 @@
-# Firebase Authentication For React `made for education.`
+# Firebase Authentication For React.
+>**Note:** made for education.
 
 ## Features
 - Sign Up
