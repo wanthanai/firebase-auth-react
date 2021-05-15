@@ -5,7 +5,7 @@ import Dashboard from '../components/Dashboard'
 import UpdateProfile from '../components/UpdateProfile'
 import ForgotPassword from '../components/ForgotPassword'
 import PrivateRoute from '../components/PrivateRoute'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 // styled components
 import styled from 'styled-components'
 import '../styles/global.css'
