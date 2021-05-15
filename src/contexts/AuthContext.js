@@ -21,11 +21,15 @@ function AuthProvider({ children }) {
     const logout = () => {
         return auth.signOut();
     }
+    const updateEmail = (email) => {
+        return currentUser.updateEmail(email);
+    }
 
     useEffect(() => {
         const unsubscriber = auth.onAuthStateChanged(user => {
             setCurrentUser(user)
             setLoading(false)
+            console.log(user);
         })
 
         return unsubscriber;
@@ -35,7 +39,8 @@ function AuthProvider({ children }) {
         currentUser,
         signup,
         login,
-        logout
+        logout, 
+        updateEmail
     }
 
     return (
