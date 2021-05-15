@@ -2,6 +2,7 @@ import React,{ useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 //component
 import AlertErr from './AlertErr'
 
@@ -85,7 +86,7 @@ function Dashboard() {
                 <p className="profile-email">{currentUser.email}</p>
 
                 {/* update profile */}
-                <button className="update-profile">Update Profile</button>
+                <Link to="/update-profile"><button className="update-profile">Update Profile</button></Link>
             </div>
 
             {/* logout */}
