@@ -26,7 +26,7 @@ function AuthProvider({ children }) {
         })
 
         return unsubscriber;
-    })
+    }, [])
 
     const value = {
         currentUser,

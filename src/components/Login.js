@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useAuth } from '../contexts/AuthContext'
 // Components
-import AlertSucc from './AlertSucc'
 import AlertErr from './AlertErr'
 // Router
-import { Link } from 'react-router-dom'
-
+import { Link, useHistory } from 'react-router-dom'
+ 
 
 //! Styled 
 const Card = styled.div`
@@ -71,38 +70,35 @@ const Card = styled.div`
 function Signup() {
     //! State
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [cf_password, setCf_password] = useState('');
 
-    const { signup } = useAuth();
+    //! Context
+    const { login } = useAuth();
 
+    //! History
+    const history = useHistory();
 
     //! Function 
     const handleSubmit = async(e) => {
         e.preventDefault();
-
-        if(password !== cf_password) {
-            setError('Password do not match.');
-            setSuccess('');
-            return;
-        }
-
+        
         try{
             setError('');
             setLoading(true);
-            await signup(email, password);
-            setSuccess('Signed completed');
+            await login(email, password);
             // clear input
             setEmail('');
             setPassword('');
-            setCf_password('');
+            history.push('/');
         } catch(err){
-            setSuccess('');
-            if(err.code === 'auth/email-already-in-use') {
-                setError('email already exists.');
+            console.log(err);
+            if(err.code === 'auth/user-not-found') {
+                setError('This user dose not exist.');
+            }
+            if(err.code === 'auth/wrong-password') {
+                setError('The password is invalid')
             }
         }
 
@@ -116,9 +112,6 @@ function Signup() {
     const handleInputPassword = (e) => {
         setPassword(e.target.value)
     }
-    const handleInputCf_password = (e) => {
-        setCf_password(e.target.value)
-    }
     
 
     //! Return component
@@ -127,10 +120,9 @@ function Signup() {
             {/* card body */}
             <div className="card-body">
                 {/* text header */}
-                <h2 className='text-header'>Sign Up</h2>
-
+                <h2 className='text-header'>Sign In</h2>
+                
                 {/* Alert */}
-                {success && <AlertSucc message={success} />}
                 {error && <AlertErr message={error} />}
 
                 {/* form */}
@@ -145,18 +137,13 @@ function Signup() {
                         <label className="form-label">Password</label>
                         <input onChange={handleInputPassword} value={password} type="password" name="password" className="form-control"/>
                     </div>
-                    {/* confirm password */}
-                    <div className="form-group">
-                        <label className="form-label">Confirm Password</label>
-                        <input onChange={handleInputCf_password} value={cf_password} type="password" name="cf_password" className="form-control"/>
-                    </div>
                     {/* button submit */}
-                    <button disabled={loading} type="submit" className="form-submit">Sign Up</button>
+                    <button disabled={loading} type="submit" className="form-submit">Sign In</button>
                 </form>
             </div>
             {/* text more */}
             <div className="text-more">
-                Already have an account? <Link to="/login">Log In</Link>
+                Need account? <Link to="/signup">Sign Up</Link>
             </div>
         </Card>
     )
