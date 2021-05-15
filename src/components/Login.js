@@ -97,7 +97,6 @@ function Signup() {
             setPassword('');
             history.push('/');
         } catch(err){
-            console.log(err);
             if(err.code === 'auth/user-not-found') {
                 setError('This user dose not exist.');
             }

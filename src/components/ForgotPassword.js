@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import AlertErr from './AlertErr';
+import { useAuth } from '../contexts/AuthContext'
+import AlertSucc from './AlertSucc';
 
 
+//! Styled
 const Card = styled.div`
     color: ${({theme}) => theme.colors.font};
     width: 400px;
@@ -67,8 +71,51 @@ const Card = styled.div`
     }
 `
 
+//! React functional component
 function ForgotPassword() {
+    //! State 
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState('');
 
+    //! Context
+    const { resetPassword } = useAuth();
+
+    //! Function 
+    // handle submit
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+
+        if(!email){
+            setError('Please enter your email.');
+            setSuccess('');
+            setLoading(false);
+            return;
+        }
+
+        try{
+            setLoading(true);
+            setError('');
+            setSuccess('');
+            await resetPassword(email);
+            setSuccess('Please check your email.');
+        } catch(err) {
+            setSuccess('');
+            if(err.code === 'auth/user-not-found') {
+                setError(err.message);
+            }
+        }
+
+        setLoading(false);
+
+    }
+    // handle input 
+    const handleInputEmail = (e) => {
+        setEmail(e.target.value);
+    }
+
+    //! Return component
     return (
         <Card>
             {/* card body */}
@@ -76,12 +123,16 @@ function ForgotPassword() {
                 {/* text header */}
                 <h2 className="text-header">Reset Password</h2>
 
-                <form>
+                {/* Alert */}
+                {error && <AlertErr message={error} />}
+                {success && <AlertSucc message={success} />}
+
+                <form onSubmit={handleSubmit}>
                     {/* email */}
                     <div className="form-group">
                         <label className="form-label">Email</label>
-                        <input className="form-control" type="email" />
-                        <button type="submit" className="form-submit">Reset Password</button>
+                        <input onChange={handleInputEmail} value={email} className="form-control" type="email" />
+                        <button type="submit" disabled={loading} className="form-submit">Reset Password</button>
                         {/* link more */}
                         <Link className="link-more" to="/login"><p className="link-more">Log In</p></Link>
                     </div>
