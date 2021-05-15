@@ -60,6 +60,10 @@ const Card = styled.div`
         cursor: not-allowed;
     }
 
+    .text-forgot {
+        text-align: center;
+        margin-top: .5rem;
+    }
 
     .text-more {
         text-align: center;
@@ -140,6 +144,9 @@ function Signup() {
                     {/* button submit */}
                     <button disabled={loading} type="submit" className="form-submit">Sign In</button>
                 </form>
+
+                {/* forgot password */}
+                <Link to="/forgot-password"><p className="text-forgot">Forgot Password?</p></Link>
             </div>
             {/* text more */}
             <div className="text-more">
