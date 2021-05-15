@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/styles/global.css"],"names":[],"mappings":"AAAA,EACI,QAAS,CACT,SAAU,CACV,qBACJ,CAEA,UACI,kBACJ","file":"main.dda81243.chunk.css","sourcesContent":["*{\r\n    margin: 0;\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n}\r\n\r\nhtml,body {\r\n    background: #171717;\r\n}"]}
