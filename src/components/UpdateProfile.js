@@ -30,6 +30,7 @@ const Card = styled.div`
     .text-header:nth-child(2), 
     .text-header:nth-of-type(1) {
         margin-top: 2rem;
+        margin-bottom: .5rem;
     }
 
     .form-group {
@@ -117,33 +118,67 @@ function UpdateProfile() {
         setEmail(e.target.value)
     }
     const handleInputPassword = (e) => {
-        setPassword(e.target.value)
+        setPassword(e.target.value);
     }
     const handleInputCf_password = (e) => {
         setCf_password(e.target.value)
     }
 
     // Update Email & Password handler
-    const handleEmailSubmit = (e) => {
+    const handleEmailSubmit = async(e) => {
         e.preventDefault();
         
-        setLoading(true)
-        if(email === currentUser.email) {
+        if(String(email).toLowerCase() === currentUser.email) {
             setSuccessEmail('');
             setErrorEmail('You are currently using this email.')
             setLoading(false)
             return;
-        } else {
-            updateEmail(email);
-            setSuccessEmail('Update email was successful.');
+        } 
+
+        try {
+            setLoading(true)
             setErrorEmail('');
-            setLoading(false);
+            setSuccessEmail('');
+            await updateEmail(email);
+            setSuccessEmail('Update email successful.')
+        } catch(err) {
+            if(err.code === 'auth/invalid-email') {
+                setSuccessEmail('');
+                setErrorEmail('Please enter email.');
+            }
         }
+
+        setLoading(false);
     }
-    const handlePasswordSubmit = (e) => {
+    const handlePasswordSubmit = async(e) => {
         e.preventDefault();
 
-        setLoading(true)
+        if(password.length === 0 && cf_password.length === 0) {
+            setSuccessPassword('');
+            setErrorPassword("Please enter new password.");
+            setLoading(false);
+            return;
+        }
+
+        if(password !== cf_password) {
+            setSuccessPassword('')
+            setErrorPassword('Password did not match.');
+            setLoading(false);
+            return;
+        } 
+
+        try {
+            setLoading(true)
+            setErrorPassword('');
+            setSuccessPassword('');
+            await updatePassword(password);
+            setSuccessPassword('Update password successful.');
+        }catch(err) {
+            console.log(err);
+        }
+
+        setLoading(false)
+
     }
 
 
@@ -178,14 +213,18 @@ function UpdateProfile() {
                     {/* text header */}
                     <h3 className="text-header">Update Password</h3>
 
+                    {/* alert */}
+                    {errorPassword && <AlertErr message={errorPassword} />}
+                    {successPassword && <AlertSucc message={successPassword} />}
+
                     {/* password */}
                     <div className="form-group">
-                        <label htmlFor="inputPassword" className="form-label">Password</label>
+                        <label htmlFor="inputPassword" className="form-label">New Password</label>
                         <input id="inputPassword" className="form-control" type="password" onChange={handleInputPassword} value={password} />
                     </div>
                     {/* cf_password */}
                     <div className="form-group">
-                        <label htmlFor="inputCf_password" className="form-label">Confirm Password</label>
+                        <label htmlFor="inputCf_password" className="form-label">Confirm New Password</label>
                         <input id="inputCf_password" className="form-control" type="password" onChange={handleInputCf_password} value={cf_password} />
                     </div>
 
