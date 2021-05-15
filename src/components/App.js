@@ -1,6 +1,8 @@
 //components
 import Signup from '../components/Signup'
 import Login from '../components/Login'
+import Dashboard from '../components/Dashboard'
+import PrivateRoute from '../components/PrivateRoute'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 // styled components
 import styled from 'styled-components'
@@ -28,6 +30,7 @@ function App() {
                 <Router>
                     <AuthProvider>
                         <Switch>
+                            <PrivateRoute exact path='/' component={Dashboard} />
                             <Route path='/signup' component={Signup} />
                             <Route path='/login' component={Login} />
                         </Switch>

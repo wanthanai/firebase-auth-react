@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext'
 
 // If currentUser is not present, Redirect to login page
 // or if there is no login, Redirect to login page.
-function PrivateRoute({ Component: component, ...rest}) {
+function PrivateRoute({ Component, ...rest}) {
     //! Context
     const { currentUser } = useAuth();
 
